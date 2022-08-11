@@ -14,8 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls.static import static
+from django.conf import settings
+
+schema_view = get_swagger_view(title='HealthOS Django Test')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('docs/', schema_view),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('auth/', include('djoser.urls.jwt')),
+    path('auth/', include('djoser.social.urls')),
+
 ]
