@@ -24,9 +24,9 @@ schema_view = get_swagger_view(title='HealthOS Django Test')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('docs/', schema_view),
-    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls')), # REST implementation of Django authentication system. djoser library provides a set of Django Rest Framework views to handle basic actions such as registration, login, logout, password reset and account activation. It works with custom user model.
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt')),
     path('auth/', include('djoser.social.urls')),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
