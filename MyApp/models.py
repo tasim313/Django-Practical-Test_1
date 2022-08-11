@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.contrib.auth.models import (
   BaseUserManager,
   AbstractBaseUser,
@@ -70,7 +71,7 @@ class User(AbstractBaseUser):
     phone_regex = RegexValidator(regex=r"(^(\+8801|8801|01|008801))[1|3-9]{1}(\d){8}$",
                                  message="Phone number must be entered in the format: '+8801865632882'. "
                                          "Up to 11 digits allowed.")
-    phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=True, unique=True)
+    phone_number = models.CharField(validators=[phone_regex, MaxLengthValidator(13), MinLengthValidator(13)], max_length=13, blank=True, unique=True)
 
     GENDER_CHOICES = (
         ('male', 'Male'),
