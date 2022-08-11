@@ -41,7 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # create own app
     'MyApp',
+
+# Third pirty package to install
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'import_export',
+    'django_filters',
+    'rest_framework_swagger',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
