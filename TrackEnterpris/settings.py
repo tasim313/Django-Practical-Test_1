@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_swagger',
     "corsheaders",
+    "djstripe",
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_TEST_PUBLIC_KEY", "pk_test_51LVVbNCFcvuBspyDLGiDJCGuOIm15wTc2RBLigIJ6kGnZ8n5jIKM2z7cAYypwXmvvyksaWhhH1r0SnvDsD7i6b8H00Frg9UeSH")
+STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", "sk_test_51LVVbNCFcvuBspyDAhyYhK7BHVHC1dA3bHQXoXWDAeo2W1q3pBz2uN8DcDNcBXoS3z6EkUrupGAW9lDKPiNcONUX00WUlBUJRn")
+STRIPE_LIVE_MODE = False  # Change to True in production
+DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # Get it from the section in the Stripe dashboard where you added the webhook endpoint
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
