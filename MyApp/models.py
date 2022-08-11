@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.core.validators import MaxLengthValidator, MinLengthValidator
+import uuid
 from django.contrib.auth.models import (
   BaseUserManager,
   AbstractBaseUser,
@@ -112,3 +113,48 @@ class User(AbstractBaseUser):
         return True
 
 
+class StripeSubscription(models.Model):
+
+    """Create Subscription table here find subscription date and status"""
+
+    start_date = models.DateTimeField(help_text="The start date of the subscription.")
+    status = models.CharField(max_length=20, help_text="The status of this subscription.")
+
+
+class MyStripeModel(models.Model):
+
+    """Create Stripe  table here user name, phone number and subscription id will be store"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    phone_regex = RegexValidator(regex=r"(^(\+8801|8801|01|008801))[1|3-9]{1}(\d){8}$",
+                                 message="Phone number must be entered in the format: '+8801865632882'. "
+                                         "Up to 11 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex, MaxLengthValidator(13), MinLengthValidator(13)],
+                                    max_length=13, blank=True, unique=True)
+    stripe_subscription = models.ForeignKey(StripeSubscription, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class CustomUser(User):
+
+    """Identify User who will buy subscription"""
+
+    customer = models.ForeignKey(
+        'djstripe.Customer', null=True, blank=True, on_delete=models.SET_NULL,
+        help_text="The user's Stripe Customer object, if it exists"
+    )
+    subscription = models.ForeignKey(
+        'djstripe.Subscription', null=True, blank=True, on_delete=models.SET_NULL,
+        help_text="The user's Stripe Subscription object, if it exists"
+    )
+
+
+class Membership(models.Model):
+    """
+    A user's team membership
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        'djstripe.Customer', null=True, blank=True, on_delete=models.SET_NULL,
+        help_text="The member's Stripe Customer object for this team, if it exists"
+    )
