@@ -14,6 +14,44 @@ class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 
 
+class StripeSubscriptionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('id', 'start_date', 'status')
+    list_filter = ('status',)
+    search_fields = ('start_date', 'status',)
+    ordering = ('id', )
+
+
+admin.site.register(StripeSubscription, StripeSubscriptionAdmin)
+
+
+class MyStripeModelAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('id', 'name', 'phone_number', 'stripe_subscription')
+    list_filter = ('phone_number',)
+    search_fields = ('name', 'phone_number',)
+    ordering = ('id', )
+
+
+admin.site.register(MyStripeModel, MyStripeModelAdmin)
+
+
+class CustomUserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('id', 'customer', 'subscription')
+    search_fields = ('customer',)
+    ordering = ('id', )
+
+
+admin.site.register(CustomUser, CustomUserAdmin)
+
+
+class MembershipAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('id', 'user', 'customer')
+    list_filter = ('user', 'customer',)
+    search_fields = ('user', 'customer')
+    ordering = ('id', )
+
+
+admin.site.register(Membership, MembershipAdmin)
+
 
 
 
