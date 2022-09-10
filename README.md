@@ -1,4 +1,4 @@
-# HealthOS-Django-Practical-Test
+# Django-Practical-Test
 
 
 First of all install Docker in your local machine. 
